@@ -1,3 +1,53 @@
+function mergeSort(arr) {
+    if (arr.length == 1) {
+        return arr
+    }
+    const mid = Math.floor(arr.length / 2)
+    let leftArr = []
+    let rightArr = []
+    let count = 0
+    while (count < mid) {
+        leftArr.push(arr[count])
+        count++
+    }
+    count = mid
+    while (count < arr.length) {
+        rightArr.push(arr[count])
+        count++
+    }
+    leftArr = mergeSort(leftArr)
+    rightArr = mergeSort(rightArr)
+    return merge(leftArr, rightArr)
+    function merge(left, right) {
+        let li = 0
+        let ri = 0
+        let mergedArr = []
+        while (mergedArr.length < right.length + left.length) {
+            if (left[li] == null) {
+                while (ri < right.length) {
+                    mergedArr.push(right[ri])
+                    ri++
+                }
+            } else if (right[ri] == null) {
+                while (li < left.length) {
+                    mergedArr.push(left[li])
+                    li++
+                }
+            } else {
+                if (left[li] < right[ri]) {
+                    mergedArr.push(left[li])
+                    li++
+                } else {
+                    mergedArr.push(right[ri])
+                    ri++
+                }
+            }
+        }
+        return mergedArr
+    }
+}
+console.log(mergeSort([5,5,2,6,7,8]))
+
 //TODO Build a Node class
 // Attribute for data (node), left, and right children
 
