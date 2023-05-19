@@ -46,7 +46,21 @@ function mergeSort(arr) {
         return mergedArr
     }
 }
-console.log(mergeSort([5,5,2,6,7,8]))
+function removeDupsInSortedList(arr) {
+    let index = 0
+    while (index < arr.length) {
+        if (arr[index + 1] == null) {
+            return arr
+        } else {
+            if (arr[index] == arr[index + 1]) {
+                arr.splice(index + 1, 1)
+            } else {
+                index++
+            }
+        }
+    }
+}
+console.log(removeDupsInSortedList(mergeSort([5,7,3,1,4,2,3,6,8])))
 
 //TODO Build a Node class
 // Attribute for data (node), left, and right children
