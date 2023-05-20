@@ -46,7 +46,8 @@ function mergeSort(arr) {
         return mergedArr
     }
 }
-function removeDupsInSortedList(arr) {
+function mergeSortRemoveDups(arr) {
+    arr = mergeSort(arr)
     let index = 0
     while (index < arr.length) {
         if (arr[index + 1] == null) {
@@ -60,14 +61,21 @@ function removeDupsInSortedList(arr) {
         }
     }
 }
-console.log(removeDupsInSortedList(mergeSort([5,7,3,1,4,2,3,6,8])))
+console.log(mergeSortRemoveDups([5,7,3,1,4,2,3,6,8]))
 
-//TODO Build a Node class
-// Attribute for data (node), left, and right children
+class Node {
+    constructor(data, leftSide, rightSide) {
+        this.data = data
+        this.leftSide = leftSide
+        this.rightSide = rightSide
+    }
+}
 
-//TODO Build a Tree class
-// Accepts an array when initialized
-// Attribute for root, which uses the return value of buildTree
+class Tree {
+    constructor(intArray) {
+        this.root = buildTree(intArray)
+    }
+}
 
 //TODO Write a buildTree function which takes an array of data
 // (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) 
