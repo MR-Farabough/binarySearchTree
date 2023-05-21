@@ -88,8 +88,6 @@ function buildTree(intArray) {
     return root
 }
 
-const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
-
 const prettyPrint = (root, prefix = "", isLeft = true) => {
   if (root === undefined) {
     return;
@@ -102,6 +100,8 @@ const prettyPrint = (root, prefix = "", isLeft = true) => {
     prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
+
+const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 prettyPrint(tree.root)
 
 //TODO Write an insert and delete functions
