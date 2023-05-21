@@ -77,7 +77,7 @@ class Tree {
 }
 
 function buildTree(intArray) {
-    if (intArray.length < 1) return intArray
+    if (intArray.length < 1) return null
     const sortedArray = mergeSortRemoveDups(intArray)
     const midOfArray = Math.floor(sortedArray.length / 2)
     const leftSide = sortedArray.slice(0, midOfArray)
@@ -103,9 +103,9 @@ const prettyPrint = (root, prefix = "", isLeft = true) => {
 
 function insert(value, root) {
     root == undefined ? root = tree.root : null
-    if (root.data < value && root.rightSide.length == 0) {
+    if (root.data < value && root.rightSide == null) {
         return root.rightSide = new Node(value)
-    } else if (root.data > value && root.leftSide.length == 0) {
+    } else if (root.data > value && root.leftSide == null) {
         return root.leftSide = new Node(value)
     } 
     root.data < value ? insert(value, root.rightSide) :  insert(value, root.leftSide)
@@ -119,7 +119,7 @@ function remove(value, parent, curNode) {
     } else if (value < curNode.data) {
         remove(value, curNode, curNode.leftSide)
     }
-    if (value == curNode.data) return parent.rightSide = []
+    if (value == curNode.data) return parent.rightSide = null
     // Case #1 A leaf
         // Remove the node pointer from parent
     // Case #2 A node w/ one child
