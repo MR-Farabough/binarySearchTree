@@ -101,17 +101,22 @@ const prettyPrint = (root, prefix = "", isLeft = true) => {
   }
 };
 
+function insert(value, root) {
+    root == undefined ? root = tree.root : null
+    if (root.data < value && root.rightSide.length == 0) {
+        return root.rightSide = new Node(value)
+    } else if (root.data > value && root.leftSide.length == 0) {
+        return root.leftSide = new Node(value)
+    } 
+    root.data < value ? insert(value, root.rightSide) :  insert(value, root.leftSide)
+}
+
+// function remove(value) {}
+
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
+insert(6.5)
+insert(12)
 prettyPrint(tree.root)
-
-//TODO Write an insert and delete functions
-// Accepts a value to insert/delete
-// Deal with cases for delete such as when a node has children or not
-
-// DO NOT USE the original input array used to build the tree
-// It’s important for the efficiency of these operations that you don’t do this
-// Binary search trees can insert/delete in O(log n) time 
-// These methods should traverse the tree and manipulate the nodes and their connections
 
 //TODO Write a find function
 // Accepts a value and returns the node with the given value
