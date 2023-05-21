@@ -111,11 +111,30 @@ function insert(value, root) {
     root.data < value ? insert(value, root.rightSide) :  insert(value, root.leftSide)
 }
 
-// function remove(value) {}
+function remove(value, parent, curNode) {
+    parent == undefined ? parent = tree.root : null
+    curNode == undefined ? curNode = tree.root : null
+    if (value > curNode.data) {
+        remove(value, curNode, curNode.rightSide)
+    } else if (value < curNode.data) {
+        remove(value, curNode, curNode.leftSide)
+    }
+    if (value == curNode.data) return parent.rightSide = []
+    // Case #1 A leaf
+        // Remove the node pointer from parent
+    // Case #2 A node w/ one child
+        // Change parent pointer to curNode's pointer
+    // Case #3 A node w/ multiple children
+        // Find next biggest node (look at rightSide, then recurse down leftSide)
+        // replace node with next biggest node
+        // Change parent pointer of nextBiggest to nextBiggest.rightSide
+        //  ^= no left side because it is smallest node
+}
 
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
+remove(12)
 prettyPrint(tree.root)
 
 //TODO Write a find function
