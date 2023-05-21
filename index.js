@@ -61,7 +61,6 @@ function mergeSortRemoveDups(arr) {
         }
     }
 }
-console.log(mergeSortRemoveDups([5,7,3,1,4,2,3,6,8]))
 
 class Node {
     constructor(data, leftSide, rightSide) {
@@ -77,26 +76,33 @@ class Tree {
     }
 }
 
-//TODO Write a buildTree function which takes an array of data
-// (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) 
-// Turn it into a balanced binary tree full of Node objects appropriately placed 
-// Must sort and remove duplicates
-// Return the level-0 root node
+function buildTree(intArray) {
+    if (intArray.length < 1) return intArray
+    const sortedArray = mergeSortRemoveDups(intArray)
+    const midOfArray = Math.floor(sortedArray.length / 2)
+    const leftSide = sortedArray.slice(0, midOfArray)
+    const rightSide = sortedArray.slice(midOfArray + 1)
+    const root = new Node(sortedArray[midOfArray], leftSide, rightSide)
+    root.leftSide = buildTree(leftSide)
+    root.rightSide = buildTree(rightSide)
+    return root
+}
 
-// Visualize your binary search tree
-// Expects to receive the root of your tree as the value for the node parameter
-// const prettyPrint = (node, prefix = "", isLeft = true) => {
-//   if (node === null) {
-//     return;
-//   }
-//   if (node.right !== null) {
-//     prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-//   }
-//   console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-//   if (node.left !== null) {
-//     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-//   }
-// };
+const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
+
+const prettyPrint = (root, prefix = "", isLeft = true) => {
+  if (root === undefined) {
+    return;
+  }
+  if (root.rightSide !== null) {
+    prettyPrint(root.rightSide, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.data}`);
+  if (root.leftSide !== null) {
+    prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
+prettyPrint(tree.root)
 
 //TODO Write an insert and delete functions
 // Accepts a value to insert/delete
