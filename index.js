@@ -115,12 +115,15 @@ function remove(value, parent, curNode) {
     parent == undefined ? parent = tree.root : null
     curNode == undefined ? curNode = tree.root : null
     const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
-    // Case #1 curNode is leaf
+    // Recusive calls
     if (value > curNode.data) {
         remove(value, curNode, curNode.rightSide)
     } else if (value < curNode.data) {
         remove(value, curNode, curNode.leftSide)
     }
+    // No Node Found
+    if (value != curNode.data && emptyLeafs) return null
+    // Case #1 curNode is leaf
     if (value == curNode.data && emptyLeafs) return parent.rightSide = null
     // Case #2 curNode has one branch
     if (value == curNode.data && curNode.rightSide == null && parent.rightSide.data == curNode.data) {
