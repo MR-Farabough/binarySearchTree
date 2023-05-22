@@ -115,14 +115,23 @@ function remove(value, parent, curNode) {
     parent == undefined ? parent = tree.root : null
     curNode == undefined ? curNode = tree.root : null
     const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
+    // Case #1 curNode is leaf
     if (value > curNode.data) {
         remove(value, curNode, curNode.rightSide)
     } else if (value < curNode.data) {
         remove(value, curNode, curNode.leftSide)
     }
     if (value == curNode.data && emptyLeafs) return parent.rightSide = null
-    // Case #2 A node w/ one child
-        // Change parent pointer to curNode's pointer
+    // Case #2 curNode has one branch
+    if (value == curNode.data && curNode.rightSide == null && parent.rightSide.data == curNode.data) {
+        return parent.rightSide = curNode.leftSide
+    } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide.data == curNode.data) {
+        return parent.leftSide = curNode.leftSide
+    } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide.data == curNode.data) {
+        return parent.leftSide = curNode.rightSide
+    } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide.data == curNode.data) {
+        return parent.rightSide = curNode.rightSide
+    }
     // Case #3 A node w/ multiple children
         // Find next biggest node (look at rightSide, then recurse down leftSide)
         // replace node with next biggest node
@@ -133,7 +142,8 @@ function remove(value, parent, curNode) {
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
-remove(9)
+remove(10)
+remove(2)
 prettyPrint(tree.root)
 
 //TODO Write a find function
