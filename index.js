@@ -114,14 +114,13 @@ function insert(value, root) {
 function remove(value, parent, curNode) {
     parent == undefined ? parent = tree.root : null
     curNode == undefined ? curNode = tree.root : null
+    const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
     if (value > curNode.data) {
         remove(value, curNode, curNode.rightSide)
     } else if (value < curNode.data) {
         remove(value, curNode, curNode.leftSide)
     }
-    if (value == curNode.data) return parent.rightSide = null
-    // Case #1 A leaf
-        // Remove the node pointer from parent
+    if (value == curNode.data && emptyLeafs) return parent.rightSide = null
     // Case #2 A node w/ one child
         // Change parent pointer to curNode's pointer
     // Case #3 A node w/ multiple children
@@ -134,7 +133,7 @@ function remove(value, parent, curNode) {
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
-remove(12)
+remove(9)
 prettyPrint(tree.root)
 
 //TODO Write a find function
