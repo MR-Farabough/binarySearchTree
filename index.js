@@ -153,14 +153,23 @@ function remove(value, parent, curNode) {
     }
 }
 
+function find(value, node) {
+    node == undefined ? node = tree.root : null
+    if (value == null) return null
+    if (value > node.data) {
+        return find(value, node.rightSide)
+    } else if (value < node.data) {
+        return find(value, node.leftSide)
+    }
+    if (value == node.data) return node
+}
+
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
 remove(10)
+console.log(find(12))
 prettyPrint(tree.root)
-
-//TODO Write a find function
-// Accepts a value and returns the node with the given value
 
 //TODO Write a levelOrder function
 // Accepts another function as a parameter
