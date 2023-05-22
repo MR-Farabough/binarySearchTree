@@ -136,17 +136,27 @@ function remove(value, parent, curNode) {
         return parent.rightSide = curNode.rightSide
     }
     // Case #3 A node w/ multiple children
-        // Find next biggest node (look at rightSide, then recurse down leftSide)
-        // replace node with next biggest node
-        // Change parent pointer of nextBiggest to nextBiggest.rightSide
-        //  ^= no left side because it is smallest node
+    if (value == curNode.data) {
+        function findNextBiggest(node) {
+            if (node.leftSide == null) return node
+            return findNextBiggest(node.leftSide)
+        }
+        function parentOfNextBiggest(node) {
+            if (node.leftSide == null || node.leftSide.leftSide == null) return node
+            return parentOfNextBiggest(node.leftSide)
+        }
+        const nextNode = findNextBiggest(curNode.rightSide)
+        const parentNode = parentOfNextBiggest(curNode.rightSide)
+        curNode.data = nextNode.data
+        curNode.data == curNode.rightSide.data ? curNode.rightSide = null : null
+        parentNode.leftSide == nextNode ? parentNode.leftSide = null : null
+    }
 }
 
 const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
 remove(10)
-remove(2)
 prettyPrint(tree.root)
 
 //TODO Write a find function
