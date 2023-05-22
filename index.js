@@ -124,19 +124,25 @@ function remove(value, parent, curNode) {
     // No Node Found
     if (value != curNode.data && emptyLeafs) return null
     // Case #1 curNode is leaf
-    if (value == curNode.data && emptyLeafs) return parent.rightSide = null
+    if (value == curNode.data && parent.leftSide == curNode && emptyLeafs) return parent.leftSide = null
+    if (value == curNode.data && parent.rightSide == curNode && emptyLeafs) return parent.rightSide = null
     // Case #2 curNode has one branch
-    if (value == curNode.data && curNode.rightSide == null && parent.rightSide.data == curNode.data) {
+    if (value == curNode.data && curNode.rightSide == null && parent.rightSide == curNode) {
+        console.log(true, 'one')
         return parent.rightSide = curNode.leftSide
-    } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide.data == curNode.data) {
+    } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide == curNode) {
+        console.log(true, 'two')
         return parent.leftSide = curNode.leftSide
-    } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide.data == curNode.data) {
+    } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide == curNode) {
+        console.log(true, 'three')
         return parent.leftSide = curNode.rightSide
-    } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide.data == curNode.data) {
+    } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide == curNode) {
+        console.log(true, 'four')
         return parent.rightSide = curNode.rightSide
     }
     // Case #3 A node w/ multiple children
-    if (value == curNode.data) {
+    if (value == curNode.data && curNode.rightSide != null && curNode.leftSide != null) {
+        console.log('Case#3')
         function findNextBiggest(node) {
             if (node.leftSide == null) return node
             return findNextBiggest(node.leftSide)
@@ -168,7 +174,7 @@ const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
 insert(6.5)
 insert(12)
 remove(10)
-console.log(find(13))
+remove(3)
 prettyPrint(tree.root)
 
 //TODO Write a levelOrder function
