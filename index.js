@@ -46,6 +46,7 @@ function mergeSort(arr) {
         return mergedArr
     }
 }
+
 function mergeSortRemoveDups(arr) {
     arr = mergeSort(arr)
     let index = 0
@@ -62,20 +63,6 @@ function mergeSortRemoveDups(arr) {
     }
 }
 
-class Node {
-    constructor(data, leftSide, rightSide) {
-        this.data = data
-        this.leftSide = leftSide
-        this.rightSide = rightSide
-    }
-}
-
-class Tree {
-    constructor(intArray) {
-        this.root = buildTree(intArray)
-    }
-}
-
 function buildTree(intArray) {
     if (intArray.length < 1) return null
     const sortedArray = mergeSortRemoveDups(intArray)
@@ -88,75 +75,97 @@ function buildTree(intArray) {
     return root
 }
 
-const prettyPrint = (root, prefix = "", isLeft = true) => {
-  if (root === undefined) {
-    return;
-  }
-  if (root.rightSide !== null) {
-    prettyPrint(root.rightSide, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.data}`);
-  if (root.leftSide !== null) {
-    prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-function insert(value, root) {
-    root == undefined ? root = tree.root : null
-    if (root.data < value && root.rightSide == null) {
-        return root.rightSide = new Node(value)
-    } else if (root.data > value && root.leftSide == null) {
-        return root.leftSide = new Node(value)
-    } 
-    root.data < value ? insert(value, root.rightSide) :  insert(value, root.leftSide)
+class Node {
+    constructor(data, leftSide, rightSide) {
+        this.data = data
+        this.leftSide = leftSide
+        this.rightSide = rightSide
+    }
 }
 
-function remove(value, parent, curNode) {
-    parent == undefined ? parent = tree.root : null
-    curNode == undefined ? curNode = tree.root : null
-    const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
-    // Recusive calls
-    if (value > curNode.data) {
-        remove(value, curNode, curNode.rightSide)
-    } else if (value < curNode.data) {
-        remove(value, curNode, curNode.leftSide)
+class Tree {
+    constructor(intArray) {
+        this.root = buildTree(intArray)
     }
-    // No Node Found
-    if (value != curNode.data && emptyLeafs) return null
-    // Case #1 curNode is leaf
-    if (value == curNode.data && parent.leftSide == curNode && emptyLeafs) return parent.leftSide = null
-    if (value == curNode.data && parent.rightSide == curNode && emptyLeafs) return parent.rightSide = null
-    // Case #2 curNode has one branch
-    if (value == curNode.data && curNode.rightSide == null && parent.rightSide == curNode) {
-        return parent.rightSide = curNode.leftSide
-    } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide == curNode) {
-        return parent.leftSide = curNode.leftSide
-    } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide == curNode) {
-        return parent.leftSide = curNode.rightSide
-    } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide == curNode) {
-        return parent.rightSide = curNode.rightSide
-    }
-    // Case #3 A node w/ multiple children
-    if (value == curNode.data && curNode.rightSide != null && curNode.leftSide != null) {
-        function findNextBiggest(node) {
-            if (node.leftSide == null) return node
-            return findNextBiggest(node.leftSide)
+
+    remove(value, parent, curNode) {
+        parent == undefined ? parent = tree.root : null
+        curNode == undefined ? curNode = tree.root : null
+        const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
+        // Recusive calls
+        if (value > curNode.data) {
+            this.remove(value, curNode, curNode.rightSide)
+        } else if (value < curNode.data) {
+            this.remove(value, curNode, curNode.leftSide)
         }
-        function parentOfNextBiggest(node) {
-            if (node.leftSide == null || node.leftSide.leftSide == null) return node
-            return parentOfNextBiggest(node.leftSide)
+        // No Node Found
+        if (value != curNode.data && emptyLeafs) return null
+        // Case #1 curNode is leaf
+        if (value == curNode.data && parent.leftSide == curNode && emptyLeafs) return parent.leftSide = null
+        if (value == curNode.data && parent.rightSide == curNode && emptyLeafs) return parent.rightSide = null
+        // Case #2 curNode has one branch
+        if (value == curNode.data && curNode.rightSide == null && parent.rightSide == curNode) {
+            return parent.rightSide = curNode.leftSide
+        } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide == curNode) {
+            return parent.leftSide = curNode.leftSide
+        } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide == curNode) {
+            return parent.leftSide = curNode.rightSide
+        } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide == curNode) {
+            return parent.rightSide = curNode.rightSide
         }
-        const nextNode = findNextBiggest(curNode.rightSide)
-        const parentNode = parentOfNextBiggest(curNode.rightSide)
-        curNode.data = nextNode.data
-        curNode.data == curNode.rightSide.data ? curNode.rightSide = null : null
-        parentNode.leftSide == nextNode ? parentNode.leftSide = null : null
+        // Case #3 A node w/ multiple children
+        if (value == curNode.data && curNode.rightSide != null && curNode.leftSide != null) {
+            function findNextBiggest(node) {
+                if (node.leftSide == null) return node
+                return findNextBiggest(node.leftSide)
+            }
+            function parentOfNextBiggest(node) {
+                if (node.leftSide == null || node.leftSide.leftSide == null) return node
+                return parentOfNextBiggest(node.leftSide)
+            }
+            const nextNode = findNextBiggest(curNode.rightSide)
+            const parentNode = parentOfNextBiggest(curNode.rightSide)
+            curNode.data = nextNode.data
+            curNode.data == curNode.rightSide.data ? curNode.rightSide = null : null
+            parentNode.leftSide == nextNode ? parentNode.leftSide = null : null
+        }
     }
+
+    insert(value, root) {
+        root == undefined ? root = tree.root : null
+        if (root.data < value && root.rightSide == null) {
+            return root.rightSide = new Node(value)
+        } else if (root.data > value && root.leftSide == null) {
+            return root.leftSide = new Node(value)
+        }
+        root.data < value ? this.insert(value, root.rightSide) : this.insert(value, root.leftSide)
+    }
+
+    levelOrder(cb) {
+        if (typeof cb == typeof Function) {
+            // Manipulate data return manipulated data
+        } else {
+            // Call this function with no cb returns an array for tree.root
+        }
+    }
+
+    prettyPrint(root, prefix = "", isLeft = true) {
+        if (root === undefined) {
+            return;
+        }
+        if (root.rightSide !== null) {
+            this.prettyPrint(root.rightSide, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.data}`);
+        if (root.leftSide !== null) {
+            this.prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+    };
+
 }
 
 function find(value, node) {
-    if (node == null) return null
-    node == undefined ? node = tree.root : null
+    if (node === undefined) return null
     if (value > node.data) {
         return find(value, node.rightSide)
     } else if (value < node.data) {
@@ -165,13 +174,14 @@ function find(value, node) {
     if (value == node.data) return node
 }
 
-const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
-insert(6.5)
-insert(12)
-remove(10)
-remove(3)
-prettyPrint(tree.root)
-
+const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+tree.insert(6.5)
+tree.insert(12)
+tree.remove(10)
+console.log(find(6, tree.root))
+tree.remove(3)
+tree.prettyPrint(tree.root)
+// console.log(tree.levelOrder(x => `( ${x} ) => `))
 //TODO Write a levelOrder function
 // Accepts another function as a parameter
 // levelOrder should traverse the tree in breadth-first level order
