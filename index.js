@@ -128,21 +128,16 @@ function remove(value, parent, curNode) {
     if (value == curNode.data && parent.rightSide == curNode && emptyLeafs) return parent.rightSide = null
     // Case #2 curNode has one branch
     if (value == curNode.data && curNode.rightSide == null && parent.rightSide == curNode) {
-        console.log(true, 'one')
         return parent.rightSide = curNode.leftSide
     } else if (value == curNode.data && curNode.rightSide == null && parent.leftSide == curNode) {
-        console.log(true, 'two')
         return parent.leftSide = curNode.leftSide
     } else if (value == curNode.data && curNode.leftSide == null && parent.leftSide == curNode) {
-        console.log(true, 'three')
         return parent.leftSide = curNode.rightSide
     } else if (value == curNode.data && curNode.leftSide == null && parent.rightSide == curNode) {
-        console.log(true, 'four')
         return parent.rightSide = curNode.rightSide
     }
     // Case #3 A node w/ multiple children
     if (value == curNode.data && curNode.rightSide != null && curNode.leftSide != null) {
-        console.log('Case#3')
         function findNextBiggest(node) {
             if (node.leftSide == null) return node
             return findNextBiggest(node.leftSide)
