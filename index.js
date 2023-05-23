@@ -141,6 +141,17 @@ class Tree {
         root.data < value ? this.insert(value, root.rightSide) : this.insert(value, root.leftSide)
     }
 
+    find(value, node) {
+        if (node == undefined) node = this.root
+        if (value != node.data && node.rightSide == null && node.leftSide == null) return null
+        if (value > node.data) {
+            return this.find(value, node.rightSide)
+        } else if (value < node.data) {
+            return this.find(value, node.leftSide)
+        }
+        return value == node.data ? node : null
+    }
+
     levelOrder(cb) {
         if (typeof cb == typeof Function) {
             // Manipulate data return manipulated data
@@ -164,24 +175,14 @@ class Tree {
 
 }
 
-function find(value, node) {
-    if (node === undefined) return null
-    if (value > node.data) {
-        return find(value, node.rightSide)
-    } else if (value < node.data) {
-        return find(value, node.leftSide)
-    }
-    if (value == node.data) return node
-}
-
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 tree.insert(6.5)
 tree.insert(12)
 tree.remove(10)
-console.log(find(6, tree.root))
 tree.remove(3)
+console.log(tree.find(5))
 tree.prettyPrint(tree.root)
-// console.log(tree.levelOrder(x => `( ${x} ) => `))
+console.log(tree.levelOrder(tree.root))
 //TODO Write a levelOrder function
 // Accepts another function as a parameter
 // levelOrder should traverse the tree in breadth-first level order
@@ -196,10 +197,6 @@ tree.prettyPrint(tree.root)
 // Should traverse the tree in their respective depth-first order 
 // yield each node to the provided function given as an argument
 // Return an array of values if no function is given
-
-//TODO Write a height function
-// Accepts a node and returns its height
-// Height is defined as the number of edges in longest path from a given node to a leaf node
 
 //TODO Write a depth function
 // Accepts a node and returns its depth
