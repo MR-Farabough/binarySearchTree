@@ -178,6 +178,24 @@ class Tree {
         }
     }
 
+    depth(seekingNode) {
+        let depth = 0
+        function traversal(traversingNode) {
+            if (traversingNode.rightSide == null && traversingNode.leftSide == null && traversingNode.data != seekingNode) return depth = null 
+            if (traversingNode.data == seekingNode) return
+            if (traversingNode.data > seekingNode) {
+                depth++
+                traversal(traversingNode.leftSide)
+            }
+            if (traversingNode.data < seekingNode) {
+                depth++
+                traversal(traversingNode.rightSide)
+            }
+        }
+        traversal(this.root)
+        return depth
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (root === undefined) {
             return;
@@ -201,14 +219,7 @@ tree.remove(3)
 console.log(tree.find(5))
 tree.prettyPrint(tree.root)
 console.log(tree.levelOrder(x => x + 1))
-//TODO Write a levelOrder function
-// Accepts another function as a parameter
-// levelOrder should traverse the tree in breadth-first level order
-// Provide each node as the argument to the provided function
-// This function can be implemented using either iteration or recursion 
-// Return an array of values if no function is given
-// Tip: Use an array as a queue to keep track of all the child nodes...
-// .. that have yet to traverse and to add new ones to the list (as you saw in the video)
+console.log(tree.depth(17))
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
