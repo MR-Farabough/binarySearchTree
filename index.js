@@ -199,20 +199,7 @@ class Tree {
         traversal(this.root)
         return depth
     }
-
-    prettyPrint(root, prefix = "", isLeft = true) {
-        if (root === undefined) {
-            return;
-        }
-        if (root.rightSide !== null) {
-            this.prettyPrint(root.rightSide, `${prefix}${isLeft ? "│   " : "    "}`, false);
-        }
-        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.data}`);
-        if (root.leftSide !== null) {
-            this.prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
-        }
-    };
-
+    
     inorder(cb) {
         const nodeArray = mergeSortRemoveDups(this.levelOrder())
         if (typeof cb == typeof Function) {
@@ -227,6 +214,19 @@ class Tree {
             return nodeArray
         }
     }
+
+    prettyPrint(root, prefix = "", isLeft = true) {
+        if (root === undefined) {
+            return;
+        }
+        if (root.rightSide !== null) {
+            this.prettyPrint(root.rightSide, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.data}`);
+        if (root.leftSide !== null) {
+            this.prettyPrint(root.leftSide, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+    };
 
 }
 
