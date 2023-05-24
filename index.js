@@ -89,8 +89,8 @@ class Tree {
     }
 
     remove(value, parent, curNode) {
-        parent == undefined ? parent = tree.root : null
-        curNode == undefined ? curNode = tree.root : null
+        parent == undefined ? parent = this.root : null
+        curNode == undefined ? curNode = this.root : null
         const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
         // Recusive calls
         if (value > curNode.data) {
@@ -132,7 +132,7 @@ class Tree {
     }
 
     insert(value, root) {
-        root == undefined ? root = tree.root : null
+        root == undefined ? root = this.root : null
         if (root.data < value && root.rightSide == null) {
             return root.rightSide = new Node(value)
         } else if (root.data > value && root.leftSide == null) {
