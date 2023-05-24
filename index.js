@@ -227,10 +227,6 @@ console.log(tree.depth(17))
 // yield each node to the provided function given as an argument
 // Return an array of values if no function is given
 
-//TODO Write a depth function
-// Accepts a node and returns its depth
-// Depth is defined as the number of edges in path from a given node to the tree’s root node
-
 //TODO Write a isBalanced function
 // Checks if the tree is balanced
 // A balanced tree is when the difference between heights...
