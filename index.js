@@ -88,18 +88,19 @@ class Tree {
         this.root = buildTree(intArray)
     }
 
-    remove(value, parent, curNode) {
-        parent == undefined ? parent = this.root : null
-        curNode == undefined ? curNode = this.root : null
+    remove(value, parent = this.root, curNode = this.root) {
         const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
+        // No Node Found
+        console.log('VALUE', value)
+        console.log('parent', parent)
+        console.log('curnode', curNode)
+        if (value != curNode.data && emptyLeafs) return null
         // Recusive calls
         if (value > curNode.data) {
             this.remove(value, curNode, curNode.rightSide)
         } else if (value < curNode.data) {
             this.remove(value, curNode, curNode.leftSide)
         }
-        // No Node Found
-        if (value != curNode.data && emptyLeafs) return null
         // Case #1 curNode is leaf
         if (value == curNode.data && parent.leftSide == curNode && emptyLeafs) return parent.leftSide = null
         if (value == curNode.data && parent.rightSide == curNode && emptyLeafs) return parent.rightSide = null
@@ -131,8 +132,8 @@ class Tree {
         }
     }
 
-    insert(value, root) {
-        root == undefined ? root = this.root : null
+    insert(value, root = this.root) {
+        if (root == undefined) return 
         if (root.data < value && root.rightSide == null) {
             return root.rightSide = new Node(value)
         } else if (root.data > value && root.leftSide == null) {
@@ -141,9 +142,8 @@ class Tree {
         root.data < value ? this.insert(value, root.rightSide) : this.insert(value, root.leftSide)
     }
 
-    find(value, node) {
-        if (node == undefined) node = this.root
-        if (value != node.data && node.rightSide == null && node.leftSide == null) return null
+    find(value, node = tree.root) {
+        if (node == null) return null 
         if (value > node.data) {
             return this.find(value, node.rightSide)
         } else if (value < node.data) {
@@ -178,8 +178,41 @@ class Tree {
         }
     }
 
+    height() {
+        let leftHeight = 3
+        let rightHeight = 3
+        function traverseLeft(node) {
+            if (node == null) return 
+            if (node.rightSide != null) {
+                leftHeight++
+                traverseLeft(node.rightSide)
+            } else {
+                leftHeight++
+                traverseLeft(node.leftSide)
+            }
+        }
+
+        function traverseRight(node) {
+            if (node == null) return 
+            if (node.rightSide != null) {
+                rightHeight++
+                traverseRight(node.rightSide)
+            } else {
+                rightHeight++
+                traverseRight(node.leftSide)
+            }
+        }
+        if (this.root.rightSide == null && this.root.leftSide == null) {
+            return
+        } else {
+            traverseLeft(this.root.leftSide)
+            traverseRight(this.root.rightSide)
+        }
+        return leftHeight > rightHeight ? leftHeight : rightHeight
+    }
+
     depth(seekingNode) {
-        let depth = 0
+        let depth = 1
         function traversal(traversingNode) {
             if (traversingNode.rightSide == null && traversingNode.leftSide == null && traversingNode.data != seekingNode) return depth = null 
             if (traversingNode.data == seekingNode) return
@@ -211,15 +244,16 @@ class Tree {
 
 }
 
-const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+const tree = new Tree([1,2,3,4,5,6,7,8,9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 tree.insert(6.5)
 tree.insert(12)
-tree.remove(10)
-tree.remove(3)
-console.log(tree.find(5))
+tree.remove(10) // FIXME With a large enough array inserting can create an imbalanced tree
+tree.remove(3) // FIXME Imbalanced tree == call stack errors
 tree.prettyPrint(tree.root)
-console.log(tree.levelOrder(x => x + 1))
-console.log(tree.depth(17))
+console.log('FIND',tree.find(5))
+console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
+console.log('DEPTH',tree.depth(7))
+console.log('HEIGHT', tree.height()) // FIXME Imbalacned tree == mess up
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
