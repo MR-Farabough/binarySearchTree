@@ -91,9 +91,6 @@ class Tree {
     remove(value, parent = this.root, curNode = this.root) {
         const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
         // No Node Found
-        console.log('VALUE', value)
-        console.log('parent', parent)
-        console.log('curnode', curNode)
         if (value != curNode.data && emptyLeafs) return null
         // Recusive calls
         if (value > curNode.data) {
