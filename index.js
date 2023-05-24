@@ -213,8 +213,19 @@ class Tree {
         }
     };
 
-    inorder() {
-        return mergeSortRemoveDups(this.levelOrder())
+    inorder(cb) {
+        const nodeArray = mergeSortRemoveDups(this.levelOrder())
+        if (typeof cb == typeof Function) {
+            let count = 0
+            let results = []
+            while (count < nodeArray.length) {
+                results.push(cb(nodeArray[count]))
+                count++
+            }
+            return results
+        } else {
+            return nodeArray
+        }
     }
 
 }
@@ -229,7 +240,7 @@ console.log('FIND',tree.find(12))
 console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
 console.log('DEPTH',tree.depth(12))
 console.log('HEIGHT', tree.height())
-console.log('INORDER', tree.inorder())
+console.log('INORDER', tree.inorder(x => x * 1))
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
