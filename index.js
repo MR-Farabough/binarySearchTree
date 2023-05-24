@@ -91,7 +91,7 @@ class Tree {
     remove(value, parent = this.root, curNode = this.root) {
         const emptyLeafs = curNode.rightSide == null && curNode.leftSide == null
         // No Node Found
-        if (value != curNode.data && emptyLeafs) return null
+        if (value != curNode.data && emptyLeafs) return console.log('RUN ERROR: NO NODE FOUND')
         // Recusive calls
         if (value > curNode.data) {
             this.remove(value, curNode, curNode.rightSide)
@@ -130,6 +130,9 @@ class Tree {
     }
 
     insert(value, root = this.root) {
+        const array = this.levelOrder()
+        array.push(value)
+        this.root = buildTree(array)
         if (root == undefined) return 
         if (root.data < value && root.rightSide == null) {
             return root.rightSide = new Node(value)
@@ -176,36 +179,7 @@ class Tree {
     }
 
     height() {
-        let leftHeight = 3
-        let rightHeight = 3
-        function traverseLeft(node) {
-            if (node == null) return 
-            if (node.rightSide != null) {
-                leftHeight++
-                traverseLeft(node.rightSide)
-            } else {
-                leftHeight++
-                traverseLeft(node.leftSide)
-            }
-        }
-
-        function traverseRight(node) {
-            if (node == null) return 
-            if (node.rightSide != null) {
-                rightHeight++
-                traverseRight(node.rightSide)
-            } else {
-                rightHeight++
-                traverseRight(node.leftSide)
-            }
-        }
-        if (this.root.rightSide == null && this.root.leftSide == null) {
-            return
-        } else {
-            traverseLeft(this.root.leftSide)
-            traverseRight(this.root.rightSide)
-        }
-        return leftHeight > rightHeight ? leftHeight : rightHeight
+        return this.depth(this.levelOrder().pop())
     }
 
     depth(seekingNode) {
@@ -241,16 +215,16 @@ class Tree {
 
 }
 
-const tree = new Tree([1,2,3,4,5,6,7,8,9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+const tree = new Tree([205, 344, 939, 252, 87, 254, 553, 737, 698, 728, 684, 965, 576, 366, 359, 406, 532, 571, 78, 984, 627, 779, 836, 342, 308, 866, 56, 548, 486, 211, 781, 68, 642, 697, 480, 372, 195, 411, 129, 569, 304, 981, 336, 147, 470, 508, 414, 935, 397, 622])
 tree.insert(6.5)
 tree.insert(12)
-tree.remove(10) // FIXME With a large enough array inserting can create an imbalanced tree
-tree.remove(3) // FIXME Imbalanced tree == call stack errors
+tree.remove(10)
+tree.remove(344)
 tree.prettyPrint(tree.root)
-console.log('FIND',tree.find(5))
+console.log('FIND',tree.find(12))
 console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
-console.log('DEPTH',tree.depth(7))
-console.log('HEIGHT', tree.height()) // FIXME Imbalacned tree == mess up
+console.log('DEPTH',tree.depth(68))
+console.log('HEIGHT', tree.height())
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
