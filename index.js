@@ -153,10 +153,28 @@ class Tree {
     }
 
     levelOrder(cb) {
+        let arrayQue = [this.root]
+        let breadthOrder = []
+        function traversal(currentNode) {
+            if (arrayQue.length == 0) return breadthOrder
+            if (currentNode.leftSide != null) arrayQue.push(currentNode.leftSide)
+            if (currentNode.rightSide != null) arrayQue.push(currentNode.rightSide)
+            breadthOrder.push(arrayQue[0].data)
+            arrayQue.shift()
+            currentNode = arrayQue[0]
+            traversal(currentNode)
+        }
+        traversal(arrayQue[0])
         if (typeof cb == typeof Function) {
-            // Manipulate data return manipulated data
+            let count = 0
+            let results = []
+            while (count < breadthOrder.length) {
+                results.push(cb(breadthOrder[count]))
+                count++
+            }
+            return results
         } else {
-            // Call this function with no cb returns an array for tree.root
+            return breadthOrder
         }
     }
 
@@ -182,7 +200,7 @@ tree.remove(10)
 tree.remove(3)
 console.log(tree.find(5))
 tree.prettyPrint(tree.root)
-console.log(tree.levelOrder(tree.root))
+console.log(tree.levelOrder(x => x + 1))
 //TODO Write a levelOrder function
 // Accepts another function as a parameter
 // levelOrder should traverse the tree in breadth-first level order
