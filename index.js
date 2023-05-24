@@ -185,7 +185,7 @@ class Tree {
     depth(seekingNode) {
         let depth = 1
         function traversal(traversingNode) {
-            if (traversingNode.rightSide == null && traversingNode.leftSide == null && traversingNode.data != seekingNode) return depth = null 
+            if (traversingNode == null || traversingNode.rightSide == null && traversingNode.leftSide == null && traversingNode.data != seekingNode) return depth = null 
             if (traversingNode.data == seekingNode) return
             if (traversingNode.data > seekingNode) {
                 depth++
@@ -213,9 +213,13 @@ class Tree {
         }
     };
 
+    inorder() {
+        return mergeSortRemoveDups(this.levelOrder())
+    }
+
 }
 
-const tree = new Tree([205, 344, 939, 252, 87, 254, 553, 737, 698, 728, 684, 965, 576, 366, 359, 406, 532, 571, 78, 984, 627, 779, 836, 342, 308, 866, 56, 548, 486, 211, 781, 68, 642, 697, 480, 372, 195, 411, 129, 569, 304, 981, 336, 147, 470, 508, 414, 935, 397, 622])
+const tree = new Tree([205, 344, 939, 252, 87, 254, 553, 737])
 tree.insert(6.5)
 tree.insert(12)
 tree.remove(10)
@@ -223,8 +227,9 @@ tree.remove(344)
 tree.prettyPrint(tree.root)
 console.log('FIND',tree.find(12))
 console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
-console.log('DEPTH',tree.depth(68))
+console.log('DEPTH',tree.depth(12))
 console.log('HEIGHT', tree.height())
+console.log('INORDER', tree.inorder())
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
