@@ -199,7 +199,7 @@ class Tree {
         traversal(this.root)
         return depth
     }
-    
+
     inorder(cb) {
         const nodeArray = mergeSortRemoveDups(this.levelOrder())
         if (typeof cb == typeof Function) {
@@ -212,6 +212,36 @@ class Tree {
             return results
         } else {
             return nodeArray
+        }
+    }
+
+    preorder(cb) {
+        let arrayQue = [this.root]
+        let preorder = []
+        function traverse(node) {
+            if (arrayQue.length == 0) return
+            preorder.push(node.data)
+            arrayQue.pop()
+            if (node.leftSide != null) {
+                arrayQue.push(node.leftSide)
+                traverse(node.leftSide)
+            }
+            if (node.rightSide != null) {
+                arrayQue.push(node.rightSide)
+                traverse(node.rightSide)
+            } 
+        }
+        traverse(arrayQue[0])
+        if (typeof cb == typeof Function) {
+            let count = 0
+            let results = []
+            while (count < preorder.length) {
+                results.push(cb(preorder[count]))
+                count++
+            }
+            return results
+        } else {
+            return preorder
         }
     }
 
@@ -241,6 +271,7 @@ console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
 console.log('DEPTH',tree.depth(12))
 console.log('HEIGHT', tree.height())
 console.log('INORDER', tree.inorder(x => x * 1))
+console.log('PREORDER', tree.preorder(x => x * 1))
 
 //TODO Write inorder, preorder, and postorder functions
 // Accepts a function parameter
