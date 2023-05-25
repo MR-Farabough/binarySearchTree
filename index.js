@@ -245,6 +245,54 @@ class Tree {
         }
     }
 
+    postorder(cb) {
+        let postorder = []
+        let pathQue = []
+        let arrayQue = [this.root]
+        function traverseLeft(node) {
+            node.rightSide != null ? pathQue.push(node.rightSide) : arrayQue.push(node.rightSide)
+            if (node.leftSide != null) traverseLeft(node.leftSide)
+            arrayQue.shift()
+            if (arrayQue[0] != null) {
+                traverseLeft(arrayQue[0])
+            }
+            postorder.push(node.data)
+            if (pathQue.length != 0) {
+                arrayQue.push(pathQue[0])
+                pathQue.pop()
+            }
+        }
+        traverseLeft(arrayQue[0].leftSide)
+        arrayQue = [this.root]
+        function traverseRight(node) {
+            node.rightSide != null ? pathQue.push(node.rightSide) : arrayQue.push(node.rightSide)
+            if (node.leftSide != null) traverseRight(node.leftSide)
+            arrayQue.shift()
+            if (arrayQue[0] != null) {
+                traverseRight(arrayQue[0])
+            }
+            postorder.push(node.data)
+            if (pathQue.length != 0) {
+                arrayQue.push(pathQue[0])
+                pathQue.pop()
+            }
+        }
+        traverseRight(arrayQue[0].rightSide)
+        if (typeof cb == typeof Function) {
+            let count = 0
+            let results = []
+            while (count < postorder.length) {
+                results.push(cb(postorder[count]))
+                count++
+            }
+            results.push(this.root.data)
+            return results
+        } else {
+            postorder.push(this.root.data)
+            return postorder
+        }
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (root === undefined) {
             return;
@@ -272,12 +320,7 @@ console.log('DEPTH',tree.depth(12))
 console.log('HEIGHT', tree.height())
 console.log('INORDER', tree.inorder(x => x * 1))
 console.log('PREORDER', tree.preorder(x => x * 1))
-
-//TODO Write inorder, preorder, and postorder functions
-// Accepts a function parameter
-// Should traverse the tree in their respective depth-first order 
-// yield each node to the provided function given as an argument
-// Return an array of values if no function is given
+console.log('POSTORDER', tree.postorder(x => x * 1))
 
 //TODO Write a isBalanced function
 // Checks if the tree is balanced
