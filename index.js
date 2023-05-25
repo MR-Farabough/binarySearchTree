@@ -250,9 +250,7 @@ class Tree {
             node.rightSide != null ? pathQue.push(node.rightSide) : arrayQue.push(node.rightSide)
             if (node.leftSide != null) traverseLeft(node.leftSide)
             arrayQue.shift()
-            if (arrayQue[0] != null) {
-                traverseLeft(arrayQue[0])
-            }
+            if (arrayQue[0] != null) traverseLeft(arrayQue[0])
             postorder.push(node.data)
             if (pathQue.length != 0) {
                 arrayQue.push(pathQue[0])
@@ -295,6 +293,33 @@ class Tree {
         this.root = buildTree(array)
     }
 
+    isBalanced() {
+        let heights = []
+        function traverse(node) {
+            if (node.leftSide != null) traverse(node.leftSide)
+            if (node.rightSide != null) traverse(node.rightSide)
+            node.rightSide == null && node.leftSide == null ? heights.push(tree.depth(node.data)) : null
+        }
+        traverse(this.root)
+        let count = 0
+        let smallArray = []
+        while (count < heights.length) {
+            if (!smallArray.includes(heights[count])) smallArray.push(heights[count])
+            count++
+        }
+        if (smallArray[0] + 1 == smallArray[1]) {
+            return true
+        } else if (smallArray[0] == smallArray[1] + 1) {
+            return true
+        } else if (smallArray[0] == smallArray[1]) {
+            return true
+        } else if (smallArray.length == 1) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (root === undefined) {
             return;
@@ -310,20 +335,16 @@ class Tree {
 
 }
 
-//TODO Write a isBalanced function
-// Checks if the tree is balanced
-// A balanced tree is when the difference between heights...
-// .. of left subtree and right subtree of every node is not more than 1
-
-const tree = new Tree([205, 344, 939, 55, 67, 212, 513])
-// console.log(tree.isBalanced())
+const tree = new Tree([601, 65, 991, 432])
+tree.prettyPrint(tree.root)
+console.log(tree.isBalanced())
 console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
 console.log('PREORDER', tree.preorder(x => x * 1))
 console.log('INORDER', tree.inorder(x => x * 1))
 console.log('POSTORDER', tree.postorder(x => x * 1))
 tree.insert(6.5)
 tree.insert(12)
-// console.log(tree.isBalanced())
+console.log(tree.isBalanced())
 tree.rebalance()
-// console.log(tree.isBalanced())
+console.log(tree.isBalanced())
 tree.prettyPrint(tree.root)
