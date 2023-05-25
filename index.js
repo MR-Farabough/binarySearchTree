@@ -335,7 +335,17 @@ class Tree {
 
 }
 
-const tree = new Tree([601, 65, 991, 432])
+let intArray = []
+function generateIntArray() {
+    let count = 0
+    while (count < 10) {
+        intArray.push(Math.floor(Math.random() * 100))
+        count++
+    }
+}
+generateIntArray()
+
+const tree = new Tree(intArray)
 tree.prettyPrint(tree.root)
 console.log(tree.isBalanced())
 console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
