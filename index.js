@@ -130,9 +130,6 @@ class Tree {
     }
 
     insert(value, root = this.root) {
-        const array = this.levelOrder()
-        array.push(value)
-        this.root = buildTree(array)
         if (root == undefined) return 
         if (root.data < value && root.rightSide == null) {
             return root.rightSide = new Node(value)
@@ -293,6 +290,11 @@ class Tree {
         }
     }
 
+    rebalance() {
+        const array = this.levelOrder()
+        this.root = buildTree(array)
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (root === undefined) {
             return;
@@ -308,37 +310,20 @@ class Tree {
 
 }
 
-const tree = new Tree([205, 344, 939, 252, 87, 254, 553, 737])
-tree.insert(6.5)
-tree.insert(12)
-tree.remove(10)
-tree.remove(344)
-tree.prettyPrint(tree.root)
-console.log('FIND',tree.find(12))
-console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
-console.log('DEPTH',tree.depth(12))
-console.log('HEIGHT', tree.height())
-console.log('INORDER', tree.inorder(x => x * 1))
-console.log('PREORDER', tree.preorder(x => x * 1))
-console.log('POSTORDER', tree.postorder(x => x * 1))
-
 //TODO Write a isBalanced function
 // Checks if the tree is balanced
 // A balanced tree is when the difference between heights...
 // .. of left subtree and right subtree of every node is not more than 1
 
-//TODO Write a rebalance function
-// Rebalances an unbalanced tree
-// Tip: You’ll want to use a traversal method to provide a new array to the buildTree function
-
-//TODO Tie it all together
-// Write a simple driver script that does the following:
-// Create a binary search tree from an array of random numbers
-// You can create a function that returns an array of random numbers every time you call it, if you wish
-// Confirm that the tree is balanced by calling isBalanced
-// Print out all elements in level, pre, post, and in order
-// Unbalance the tree by adding several numbers > 100
-// Confirm that the tree is unbalanced by calling isBalanced
-// Balance the tree by calling rebalance
-// Confirm that the tree is balanced by calling isBalanced
-// Print out all elements in level, pre, post, and in order
+const tree = new Tree([205, 344, 939, 55, 67, 212, 513])
+// console.log(tree.isBalanced())
+console.log('LEVEL ORDER',tree.levelOrder(x => x * 1))
+console.log('PREORDER', tree.preorder(x => x * 1))
+console.log('INORDER', tree.inorder(x => x * 1))
+console.log('POSTORDER', tree.postorder(x => x * 1))
+tree.insert(6.5)
+tree.insert(12)
+// console.log(tree.isBalanced())
+tree.rebalance()
+// console.log(tree.isBalanced())
+tree.prettyPrint(tree.root)
