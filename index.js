@@ -146,7 +146,7 @@ class Tree {
         } else if (value < node.data) {
             return this.find(value, node.leftSide)
         }
-        return value == node.data ? node : null
+        return value == node.data ? node : console.log('RUN ERROR: NO NODE FOUND')
     }
 
     levelOrder(cb) {
