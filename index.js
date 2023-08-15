@@ -1,50 +1,25 @@
 function mergeSort(arr) {
-    if (arr.length == 1) {
-        return arr
+if(arr.length < 2) return arr;
+
+  let mid= Math.floor(arr.length / 2); 
+  let izq = arr.slice(0,mid);// With the slice() method we make a copy of a part of the array indicating the beginning and the end
+  let der = array.slice(mid);// if it receives a single parameter, it cuts from there to the end
+  arr = [];  // we reuse the original array as temporary storage space
+  
+  left = mergeSort(left);  // Within the variable "left" we call the function recursively
+  right= mergeSort(right); // Within the variable "right" we call the function recursively
+  
+  while(left.length && right.length){ // As long as there are elements in the arrays we make the comparisons                                
+    if(left[0] < right[0]){           
+      arr.push(left.shift())
     }
-    const mid = Math.floor(arr.length / 2)
-    let leftArr = []
-    let rightArr = []
-    let count = 0
-    while (count < mid) {
-        leftArr.push(arr[count])
-        count++
+    else{
+      arr.push(right.shift());
     }
-    count = mid
-    while (count < arr.length) {
-        rightArr.push(arr[count])
-        count++
-    }
-    leftArr = mergeSort(leftArr)
-    rightArr = mergeSort(rightArr)
-    return merge(leftArr, rightArr)
-    function merge(left, right) {
-        let li = 0
-        let ri = 0
-        let mergedArr = []
-        while (mergedArr.length < right.length + left.length) {
-            if (left[li] == null) {
-                while (ri < right.length) {
-                    mergedArr.push(right[ri])
-                    ri++
-                }
-            } else if (right[ri] == null) {
-                while (li < left.length) {
-                    mergedArr.push(left[li])
-                    li++
-                }
-            } else {
-                if (left[li] < right[ri]) {
-                    mergedArr.push(left[li])
-                    li++
-                } else {
-                    mergedArr.push(right[ri])
-                    ri++
-                }
-            }
-        }
-        return mergedArr
-    }
+  }
+  
+  return arr.concat(left,right);  // We return the two arrays ordered and concatenated
+   
 }
 
 function mergeSortRemoveDups(arr) {
