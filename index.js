@@ -25,17 +25,14 @@ if(arr.length < 2) return arr;
 function mergeSortRemoveDups(arr) {
     arr = mergeSort(arr)
     let index = 0
-    while (index < arr.length) {
-        if (arr[index + 1] == null) {
-            return arr
+    while (index < arr.length-1) { // We correct the limits of the index
+        if (arr[index] === arr[index + 1]) { //We modify the if block so that it does not make comparisons outside the range of the array
+            arr.splice(index + 1, 1);
         } else {
-            if (arr[index] == arr[index + 1]) {
-                arr.splice(index + 1, 1)
-            } else {
-                index++
-            }
+            index++;
         }
     }
+    return arr;
 }
 
 function buildTree(intArray) {
